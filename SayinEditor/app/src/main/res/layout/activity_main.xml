@@ -20,7 +20,7 @@
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_code_drawer" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view_left"

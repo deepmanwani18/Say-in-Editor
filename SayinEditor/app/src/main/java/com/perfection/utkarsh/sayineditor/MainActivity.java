@@ -124,8 +124,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-            if(id == R.id.action_settings) {
-//                mDrawerToggle.onOptionsItemSelected(item);
+            if(id == R.id.action_insert_code) {
+                mDrawerToggle.onOptionsItemSelected(item);
                 if (mDrawerLayout.isDrawerOpen(mRightDrawerView))
                     mDrawerLayout.closeDrawer(mRightDrawerView);
                 else {
@@ -163,9 +163,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.curly_brackets) {
-            // Handle the camera action
-        } else if (id == R.id.square_brackets) {
+        if (id == R.id.action_share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, mainEditText.getText().toString() + "");
+            intent.setType("text/plain");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+        } else if (id == R.id.curly_brackets) {
 
         } else if (id == R.id.semi_colon) {
 
