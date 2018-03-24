@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include
+    <!--<include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -20,14 +20,13 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer"
+        android:gravity="top"/>-->
     <EditText
-        android:id="@+id/mainEditText"
-        android:background="#505d64"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Put that phone to a better use, just Code it!"
-        android:textColorHint="#b9b4b4"
+        android:background="#505D64"
+        android:hint="Put that code to better use!"
         android:gravity="top"/>
 
 </android.support.v4.widget.DrawerLayout>
