@@ -1,6 +1,10 @@
 package com.perfection.utkarsh.sayineditor;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -12,12 +16,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private final int REQ_CODE_SPEECH_INPUT = 100;
+    EditText mainEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        mainEditText = (EditText) findViewById(R.id.mainEditText);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -27,8 +42,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                promptSpeechInput();
             }
         });
 
@@ -97,5 +111,62 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speech_prompt));
+
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if(resultCode == RESULT_OK && data != null) {
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    insertCode(result.get(0));
+                }
+                break;
+            }
+        }
+    }
+
+    private void insertCode(String input) {
+        int cursorPosition = mainEditText.getSelectionStart();
+        String codeBeforeCursor = mainEditText.getText().toString().substring(0,cursorPosition);
+        String codeAfterCursor = mainEditText.getText().toString().substring(cursorPosition,mainEditText.getText().toString().length());
+        String codeToBeInserted = "";
+        if(input.startsWith("declare integer")) {
+            codeToBeInserted = "int" + input.substring(15) + ";"; //int,float,char, double, long int , long long int
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 5);
+        } else if(input.startsWith("declare long integer")) {
+            codeToBeInserted = "long int" + input.substring(20) + ";";
+        } else if(input.startsWith("declare long long integer")) {
+            codeToBeInserted = "long long int" + input.substring(25) + ";";
+        } else if(input.startsWith("declare float")) {
+            codeToBeInserted = "float" + input.substring(13) + ";";
+        } else if(input.startsWith("declare character")) {
+            codeToBeInserted = "char" + input.substring(17) + ";";
+        } else if(input.startsWith("declare double")) {
+            codeToBeInserted = "double" + input.substring(14) + ";";
+        } else if(input.equals("for loop")) {
+            codeToBeInserted = "for(  ;  ;  ) {\n\n}";
+        } else {
+            Toast.makeText(getBaseContext(),"Try Again",Toast.LENGTH_SHORT);
+        }
+
     }
 }
