@@ -10,6 +10,9 @@
             android:id="@+id/square_brackets"
             android:title="[ ]" />
         <item
+            android:id="@+id/curved_brackets"
+            android:title="( )" />
+        <item
             android:id="@+id/semi_colon"
             android:title=";" />
         <item
@@ -22,6 +25,9 @@
     <item
         android:id="@+id/subtraction"
         android:title="-" />
+    <item
+        android:id="@+id/division"
+        android:title="/" />
 
 
 
