@@ -8,4 +8,6 @@
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="ang_bracket">&lt; &gt;</string>
 </resources>
