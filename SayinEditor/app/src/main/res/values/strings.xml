@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="speech_prompt">What is your code ?</string>
+    <string name="speech_prompt">What\'s your code?</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
 
     <string name="action_settings">Settings</string>
