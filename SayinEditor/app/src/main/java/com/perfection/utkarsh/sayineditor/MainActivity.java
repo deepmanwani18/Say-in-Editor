@@ -1,15 +1,12 @@
 package com.perfection.utkarsh.sayineditor;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,8 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,6 +25,11 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private NavigationView mLeftDrawerView;
+    private NavigationView mRightDrawerView;
+    private Toolbar toolbar;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     EditText mainEditText;
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity
                 "\nusing namespace std;" +
                 "\nint main()\n{\n\n}");
         mainEditText.setSelection(58);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.micfab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,14 +52,89 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavigationView navigationViewLeft = (NavigationView) findViewById(R.id.nav_view_left);
+        navigationViewLeft.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mDrawerLayout == null || mLeftDrawerView == null || mRightDrawerView == null || mDrawerToggle == null) {
+            // Configure navigation drawer
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            mLeftDrawerView = findViewById(R.id.nav_view_left);
+            mRightDrawerView = findViewById(R.id.nav_view_right);
+            mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+                public void onDrawerClosed(View drawerView) {
+                    if (drawerView.equals(mLeftDrawerView)) {
+                        getSupportActionBar().setTitle(getTitle());
+                        supportInvalidateOptionsMenu();
+                        mDrawerToggle.syncState();
+                    }
+                }
+
+                public void onDrawerOpened(View drawerView) {
+                    if (drawerView.equals(mLeftDrawerView)) {
+                        getSupportActionBar().setTitle(getString(R.string.app_name));
+                        supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                        mDrawerToggle.syncState();
+                    }
+                }
+
+                @Override
+                public void onDrawerSlide(View drawerView, float slideOffset) {
+//                    super.onDrawerSlide(drawerView, slideOffset);
+                }
+            };
+
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+        }
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        for (int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).setVisible(!mDrawerLayout.isDrawerOpen(mLeftDrawerView));
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+            if(id == R.id.action_settings) {
+//                mDrawerToggle.onOptionsItemSelected(item);
+                if (mDrawerLayout.isDrawerOpen(mRightDrawerView))
+                    mDrawerLayout.closeDrawer(mRightDrawerView);
+                else {
+                    mDrawerLayout.openDrawer(mRightDrawerView);
+                }
+
+                return true;
+            }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -66,6 +142,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
         }
@@ -78,20 +156,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -113,21 +177,17 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.modulus) {
 
-        }
-        else if (id == R.id.angular_bracket_left) {
+        } else if (id == R.id.angular_bracket_left) {
 
-        }else if (id == R.id.curved_brackets) {
+        } else if (id == R.id.curved_brackets) {
 
-        }else if (id == R.id.angular_bracket_gequal) {
+        } else if (id == R.id.angular_bracket_gequal) {
 
-        }
-        else if (id == R.id.angular_bracket_lequal) {
+        } else if (id == R.id.angular_bracket_lequal) {
 
-        }
-        else if (id == R.id.angular_bracket_right) {
+        } else if (id == R.id.angular_bracket_right) {
 
-        }
-        else if (id == R.id.assignment) {
+        } else if (id == R.id.assignment) {
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -156,7 +216,7 @@ public class MainActivity extends AppCompatActivity
 
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
-                if(resultCode == RESULT_OK && data != null) {
+                if (resultCode == RESULT_OK && data != null) {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     insertCode(result.get(0));
                 }
@@ -168,68 +228,66 @@ public class MainActivity extends AppCompatActivity
     private void insertCode(String input) {
         mainEditText = (EditText) findViewById(R.id.mainEditText);
         int cursorPosition = mainEditText.getSelectionStart();
-        String codeBeforeCursor = mainEditText.getText().toString().substring(0,cursorPosition);
-        String codeAfterCursor = mainEditText.getText().toString().substring(cursorPosition,mainEditText.getText().toString().length());
+        String codeBeforeCursor = mainEditText.getText().toString().substring(0, cursorPosition);
+        String codeAfterCursor = mainEditText.getText().toString().substring(cursorPosition, mainEditText.getText().toString().length());
 
         String codeToBeInserted = "";
 
-        Toast.makeText(getApplicationContext(),"" + input,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "" + input, Toast.LENGTH_SHORT).show();
 
-        if(input.startsWith("declare integer")) {
+        if (input.startsWith("declare integer")) {
             codeToBeInserted = "int" + input.substring(15) + ";\n";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
-        } else if(input.startsWith("declare long integer")) {
+        } else if (input.startsWith("declare long integer")) {
             codeToBeInserted = "long int" + input.substring(20) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
-        } else if(input.startsWith("declare long long integer")) {
+        } else if (input.startsWith("declare long long integer")) {
             codeToBeInserted = "long long int" + input.substring(25) + ";\n";
-            mainEditText.setText(codeBeforeCursor + codeToBeInserted +   codeAfterCursor);
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
-        } else if(input.startsWith("declare float")) {
+        } else if (input.startsWith("declare float")) {
             codeToBeInserted = "float" + input.substring(13) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
-        } else if(input.startsWith("declare character")) {
+        } else if (input.startsWith("declare character")) {
             codeToBeInserted = "char" + input.substring(17) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
-        } else if(input.startsWith("declare double")) {
+        } else if (input.startsWith("declare double")) {
             codeToBeInserted = "double" + input.substring(14) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
-        } else if(input.equals("for loop")) {
+        } else if (input.equals("for loop")) {
             codeToBeInserted = "for(  ;  ;  ) {\n\n}";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + 4);
-        } else if(input.startsWith("print out") || input.startsWith("printout")) {
+        } else if (input.startsWith("print out") || input.startsWith("printout")) {
             codeToBeInserted = "cout<<" + input.substring(9) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
-        } else if(input.startsWith("print")) {
+        } else if (input.startsWith("print")) {
             codeToBeInserted = "cout<<\"" + input.substring(6) + "\";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
-        } else if(input.startsWith("input")) {
+        } else if (input.startsWith("input")) {
             codeToBeInserted = "cin>>" + input.substring(6) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
-        } else if(input.startsWith("power")){
+        } else if (input.startsWith("power")) {
             codeToBeInserted = "pow(" + input.substring(5) + "," + ");\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
-        } else if(input.startsWith("declare array integer")) {              //declare an array integer a of size 1000
+        } else if (input.startsWith("declare array integer")) {              //declare an array integer a of size 1000
             codeToBeInserted = "int" + input.substring(21, input.indexOf("of size")) + "[" + input.substring(input.indexOf("of size")) + "];\n";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
-        } else if(input.startsWith("add test case loop")) {              //add testcase loop of int a
-            codeToBeInserted = "int " + input.substring(19)+";\ncin>>"+input.substring(19)+"\nwhile("+input.substring(19)+"--)\n{\n}";//int,float,char, double, long int , long long int
+        } else if (input.startsWith("add test case loop")) {              //add testcase loop of int a
+            codeToBeInserted = "int " + input.substring(19) + ";\ncin>>" + input.substring(19) + "\nwhile(" + input.substring(19) + "--)\n{\n}";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
-        } else if(input.startsWith("create function")) {
+        } else if (input.startsWith("create function")) {
             codeToBeInserted = "";
         }
     }
-
-
 }
