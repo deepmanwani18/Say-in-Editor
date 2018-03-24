@@ -35,14 +35,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-         mainEditText = (EditText) findViewById(R.id.mainEditText);
-
-
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainEditText = (EditText) findViewById(R.id.mainEditText);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.micfab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +56,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        keyboard();
     }
 
     @Override
@@ -107,11 +102,29 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.semi_colon) {
 
-        } else if (id == R.id.angular_brackets) {
-
         } else if (id == R.id.addition) {
 
         } else if (id == R.id.subtraction) {
+
+        } else if (id == R.id.division) {
+
+        } else if (id == R.id.modulus) {
+
+        }
+        else if (id == R.id.angular_bracket_left) {
+
+        }else if (id == R.id.curved_brackets) {
+
+        }else if (id == R.id.angular_bracket_gequal) {
+
+        }
+        else if (id == R.id.angular_bracket_lequal) {
+
+        }
+        else if (id == R.id.angular_bracket_right) {
+
+        }
+        else if (id == R.id.assignment) {
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -186,16 +199,23 @@ public class MainActivity extends AppCompatActivity
         } else if(input.equals("for loop")) {
             codeToBeInserted = "for(  ;  ;  ) {\n\n}";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 4);
+        } else if(input.startsWith("print out") || input.startsWith("printout")) {
+            codeToBeInserted = "cout<<" + input.substring(9) + ";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
+        } else if(input.startsWith("print")) {
+            codeToBeInserted = "cout<<\"" + input.substring(6) + "\";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
+        } else if(input.startsWith("input")) {
+            codeToBeInserted = "cin>>" + input.substring(6) + ";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
+        } else if(input.startsWith("power")){
+            codeToBeInserted = "pow(" + input.substring(5) + "," + ");";
+        } else if(input.startsWith("declare array integer")) {
         }
     }
 
-    public void keyboard(){
-        EditText editText=(EditText)findViewById(R.id.mainEditText);
-        FloatingActionButton key =(FloatingActionButton)findViewById(R.id.keyfab);
-        key.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-    }
 }
