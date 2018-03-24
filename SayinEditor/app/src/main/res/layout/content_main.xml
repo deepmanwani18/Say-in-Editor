@@ -8,13 +8,14 @@
     tools:context="com.perfection.utkarsh.sayineditor.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/mainEditText"
+        android:background="#505d64"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Put that phone to a better use, just Code it!"
+        android:textColorHint="#b9b4b4"
+        android:gravity="top"/>
 
 </android.support.constraint.ConstraintLayout>
