@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity
 
          mainEditText = (EditText) findViewById(R.id.mainEditText);
 
-         keyboard();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -106,11 +105,29 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.semi_colon) {
 
-        } else if (id == R.id.angular_brackets) {
-
         } else if (id == R.id.addition) {
 
         } else if (id == R.id.subtraction) {
+
+        } else if (id == R.id.division) {
+
+        } else if (id == R.id.modulus) {
+
+        }
+        else if (id == R.id.angular_bracket_left) {
+
+        }else if (id == R.id.curved_brackets) {
+
+        }else if (id == R.id.angular_bracket_gequal) {
+
+        }
+        else if (id == R.id.angular_bracket_lequal) {
+
+        }
+        else if (id == R.id.angular_bracket_right) {
+
+        }
+        else if (id == R.id.assignment) {
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -188,13 +205,5 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void keyboard(){
-        EditText editText=(EditText)findViewById(R.id.mainEditText);
-        FloatingActionButton key =(FloatingActionButton)findViewById(R.id.keyfab);
-        key.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-    }
+
 }

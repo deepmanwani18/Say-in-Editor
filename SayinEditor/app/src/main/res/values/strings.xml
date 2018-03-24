@@ -9,5 +9,8 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="ang_bracket">&lt; &gt;</string>
+    <string name="ang_bracket_left">&lt;&lt;</string>
+    <string name="ang_bracket_right">&gt;&gt;</string>
+    <string name="ang_bracket_lequal">&lt;=</string>
+    <string name="ang_bracket_gequal">&gt;=</string>
 </resources>
