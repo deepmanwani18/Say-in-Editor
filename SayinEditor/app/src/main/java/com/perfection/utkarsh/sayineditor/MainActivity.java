@@ -195,8 +195,12 @@ public class MainActivity extends AppCompatActivity
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
         } else if(input.startsWith("power")){
-            codeToBeInserted = "pow(" + input.substring(5) + "," + ");";
+            codeToBeInserted = "pow(" + input.substring(6,input.indexOf("raise")) + "," + input.substring(input.indexOf("raise") + 5)+ ");";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
         } else if(input.startsWith("declare array integer")) {
+
+        } else if(input.startsWith("create function")) {
+            codeToBeInserted = "";
         }
     }
 
