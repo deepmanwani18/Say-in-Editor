@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity
 
          mainEditText = (EditText) findViewById(R.id.mainEditText);
 
-         keyboard();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -60,6 +59,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        keyboard();
     }
 
     @Override
