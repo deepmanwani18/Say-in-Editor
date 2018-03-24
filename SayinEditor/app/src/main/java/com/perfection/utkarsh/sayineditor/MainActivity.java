@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainEditText = (EditText) findViewById(R.id.mainEditText);
+        mainEditText.setText("#include<bits/stdc++.h>" +
+                "\nusing namespace std;" +
+                "\nint main()\n{\n\n}");
+        mainEditText.setSelection(58);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.micfab);
@@ -172,27 +176,27 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(),"" + input,Toast.LENGTH_SHORT).show();
 
         if(input.startsWith("declare integer")) {
-            codeToBeInserted = "int" + input.substring(15) + ";";//int,float,char, double, long int , long long int
+            codeToBeInserted = "int" + input.substring(15) + ";\n";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare long integer")) {
-            codeToBeInserted = "long int" + input.substring(20) + ";";
+            codeToBeInserted = "long int" + input.substring(20) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare long long integer")) {
-            codeToBeInserted = "long long int" + input.substring(25) + ";";
-            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            codeToBeInserted = "long long int" + input.substring(25) + ";\n";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted +   codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare float")) {
-            codeToBeInserted = "float" + input.substring(13) + ";";
+            codeToBeInserted = "float" + input.substring(13) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare character")) {
-            codeToBeInserted = "char" + input.substring(17) + ";";
+            codeToBeInserted = "char" + input.substring(17) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare double")) {
-            codeToBeInserted = "double" + input.substring(14) + ";";
+            codeToBeInserted = "double" + input.substring(14) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.equals("for loop")) {
@@ -200,21 +204,29 @@ public class MainActivity extends AppCompatActivity
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + 4);
         } else if(input.startsWith("print out") || input.startsWith("printout")) {
-            codeToBeInserted = "cout<<" + input.substring(9) + ";";
+            codeToBeInserted = "cout<<" + input.substring(9) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
         } else if(input.startsWith("print")) {
-            codeToBeInserted = "cout<<\"" + input.substring(6) + "\";";
+            codeToBeInserted = "cout<<\"" + input.substring(6) + "\";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
         } else if(input.startsWith("input")) {
-            codeToBeInserted = "cin>>" + input.substring(6) + ";";
+            codeToBeInserted = "cin>>" + input.substring(6) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
         } else if(input.startsWith("power")){
-            codeToBeInserted = "pow(" + input.substring(5) + "," + ");";
-        } else if(input.startsWith("declare array integer")) {
+            codeToBeInserted = "pow(" + input.substring(5) + "," + ");\n";
+        } else if(input.startsWith("declare array integer")) {              //declare an array integer a of size 1000
+            codeToBeInserted = "int" + input.substring(21, input.indexOf("of size")) + "[" + input.substring(input.indexOf("of size")) + "];\n";//int,float,char, double, long int , long long int
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
+        } else if(input.startsWith("add test case loop")) {              //add testcase loop of int a
+            codeToBeInserted = "int " + input.substring(19)+";\ncin>>"+input.substring(19)+"\nwhile("+input.substring(19)+"--)\n{\n}";//int,float,char, double, long int , long long int
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         }
     }
+
 
 }
