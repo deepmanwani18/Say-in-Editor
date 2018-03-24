@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        mainEditText = (EditText) findViewById(R.id.mainEditText);
+         mainEditText = (EditText) findViewById(R.id.mainEditText);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -96,8 +96,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -143,29 +141,42 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void insertCode(String input) {
+        mainEditText = (EditText) findViewById(R.id.mainEditText);
         int cursorPosition = mainEditText.getSelectionStart();
         String codeBeforeCursor = mainEditText.getText().toString().substring(0,cursorPosition);
         String codeAfterCursor = mainEditText.getText().toString().substring(cursorPosition,mainEditText.getText().toString().length());
+
         String codeToBeInserted = "";
+
+        Toast.makeText(getApplicationContext(),"" + input,Toast.LENGTH_SHORT).show();
+
         if(input.startsWith("declare integer")) {
-            codeToBeInserted = "int" + input.substring(15) + ";"; //int,float,char, double, long int , long long int
+            codeToBeInserted = "int" + input.substring(15) + ";";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
-            mainEditText.setSelection(codeBeforeCursor.length() + 5);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare long integer")) {
             codeToBeInserted = "long int" + input.substring(20) + ";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare long long integer")) {
             codeToBeInserted = "long long int" + input.substring(25) + ";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare float")) {
             codeToBeInserted = "float" + input.substring(13) + ";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare character")) {
             codeToBeInserted = "char" + input.substring(17) + ";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.startsWith("declare double")) {
             codeToBeInserted = "double" + input.substring(14) + ";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
         } else if(input.equals("for loop")) {
             codeToBeInserted = "for(  ;  ;  ) {\n\n}";
-        } else {
-            Toast.makeText(getBaseContext(),"Try Again",Toast.LENGTH_SHORT);
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
         }
-
     }
 }
