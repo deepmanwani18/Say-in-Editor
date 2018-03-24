@@ -35,15 +35,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-         mainEditText = (EditText) findViewById(R.id.mainEditText);
-
-         keyboard();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainEditText = (EditText) findViewById(R.id.mainEditText);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.micfab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,13 +184,4 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void keyboard(){
-        EditText editText=(EditText)findViewById(R.id.mainEditText);
-        FloatingActionButton key =(FloatingActionButton)findViewById(R.id.keyfab);
-        key.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-    }
 }
