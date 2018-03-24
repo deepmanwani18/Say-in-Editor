@@ -179,6 +179,22 @@ public class MainActivity extends AppCompatActivity
         } else if(input.equals("for loop")) {
             codeToBeInserted = "for(  ;  ;  ) {\n\n}";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 4);
+        } else if(input.startsWith("print out") || input.startsWith("printout")) {
+            codeToBeInserted = "cout<<" + input.substring(9) + ";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
+        } else if(input.startsWith("print")) {
+            codeToBeInserted = "cout<<\"" + input.substring(6) + "\";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
+        } else if(input.startsWith("input")) {
+            codeToBeInserted = "cin>>" + input.substring(6) + ";";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length());
+        } else if(input.startsWith("power")){
+            codeToBeInserted = "pow(" + input.substring(5) + "," + ");";
+        } else if(input.startsWith("declare array integer")) {
         }
     }
 }
