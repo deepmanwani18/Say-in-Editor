@@ -15,8 +15,7 @@
         android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Put that phone to a better use, just Code it!"
-        android:textColorHint="#b9b4b4"
+        android:textColor="#fff"
         android:gravity="top"/>
 
 </android.support.constraint.ConstraintLayout>
