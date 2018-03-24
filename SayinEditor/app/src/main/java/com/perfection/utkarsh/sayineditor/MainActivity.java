@@ -37,12 +37,14 @@ public class MainActivity extends AppCompatActivity
 
          mainEditText = (EditText) findViewById(R.id.mainEditText);
 
+         keyboard();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.micfab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,5 +184,16 @@ public class MainActivity extends AppCompatActivity
             codeToBeInserted = "for(  ;  ;  ) {\n\n}";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
         }
+    }
+
+    public void keyboard(){
+        EditText editText=(EditText)findViewById(R.id.mainEditText);
+        FloatingActionButton key =(FloatingActionButton)findViewById(R.id.keyfab);
+        key.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager imm=
+            }
+        });
     }
 }
