@@ -293,7 +293,13 @@ public class MainActivity extends AppCompatActivity
             codeToBeInserted = "<=";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + 2);
-        } else if (id == R.id.angular_bracket_right) {
+        }
+        else if (id == R.id.back_slash) {
+            codeToBeInserted = "\\";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
+        }
+        else if (id == R.id.angular_bracket_right) {
             codeToBeInserted = ">>";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + 2);
