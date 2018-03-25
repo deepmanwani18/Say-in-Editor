@@ -26,7 +26,8 @@
         <activity
             android:name=".SnippetActivity"
             android:label="@string/title_activity_snippet"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HelpActivity"></activity>
     </application>
 
 </manifest>
