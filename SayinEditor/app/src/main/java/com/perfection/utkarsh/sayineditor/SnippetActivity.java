@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -25,6 +26,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SnippetActivity extends AppCompatActivity {
 
@@ -33,7 +37,7 @@ public class SnippetActivity extends AppCompatActivity {
     EditText code_custom;
     EditText voice_custom;
     String ret;
-
+    private SnippetAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,46 @@ public class SnippetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_snippet);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ListView snippetListView = findViewById(R.id.list);
+//        mAdapter = new SnippetAdapter(this, new ArrayList<Snippet>());
+//
+//        snippetListView.setAdapter(mAdapter);
+
+        File path = new File(Environment.getExternalStorageDirectory().toString() + File.separator + "SayItEditor");
+        boolean success = true;
+        if (!path.exists()) {
+            success = path.mkdir();
+        }
+        if (success) {
+            Log.e("App", "success to create directory");
+        } else {
+            Log.e("App", "failed to create directory");
+        }
+
+        File file = new File(path,TEMP_CODE_SNIPPET);
+
+        ret = "";
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString).append("\n");
+                }
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
+        ArrayList<Snippet> snippets = QueryUtils.extractFeatureFromJson(ret);
 
         FloatingActionButton fab_snippet = (FloatingActionButton) findViewById(R.id.fab_snippet);
         fab_snippet.setOnClickListener(new View.OnClickListener() {
