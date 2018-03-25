@@ -354,6 +354,7 @@ public class MainActivity extends AppCompatActivity
             codeToBeInserted = "int" + input.substring(21, input.indexOf("of size")) + "[" + input.substring(input.indexOf("of size")) + "];\n";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
+            //TODO: non-singular names of arrays cannot be declared. Solve this bug.
         } else if (input.startsWith("add test case loop")) {              //add testcase loop of int a
             codeToBeInserted = "int " + input.substring(19) + ";\ncin>>" + input.substring(19) + "\nwhile(" + input.substring(19) + "--)\n{\n}";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
