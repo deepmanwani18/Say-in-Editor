@@ -456,22 +456,8 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     Log.e("App", "failed to create directory");
                 }
-//        if(!path.exists()) {
-//            if(!path.mkdirs()) {
-//                Log.e("App", "failed to create directory");
-//            }
-//        }
 
                 File file = new File(path,inputString);
-//                if(!file.exists()) {
-//                    if(!file.mkdirs()) {
-//                        Log.e("App", "failed to create file");
-//                    }
-//                    else {
-//                        Log.e("App", "Success to create file");
-//                    }
-//                }
-
                 try {
                     FileOutputStream fileOutputStream = new FileOutputStream(file,true);  //(new File(file.getAbsolutePath().toString()),true);
                     fileOutputStream.write(mainEditText.getText().toString().getBytes());
