@@ -1,17 +1,22 @@
 package com.perfection.utkarsh.sayineditor;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     private final int REQ_CODE_SPEECH_INPUT = 100;
     EditText mainEditText;
 
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private final String TEMP_FILE_NAME = "hackonhills_tempfile_04e09f1999.txt";
 
     @Override
@@ -79,6 +85,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationViewLeft = (NavigationView) findViewById(R.id.nav_view_left);
         navigationViewLeft.setNavigationItemSelectedListener(this);
+
+        NavigationView navigationViewRight = (NavigationView) findViewById(R.id.nav_view_right);
+        navigationViewRight.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -156,36 +165,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e("DHSL","HS");
-//        String ret = "";
-//        try {
-//            InputStream inputStream = getApplicationContext().openFileInput(TEMP_FILE_NAME);
-//            if ( inputStream != null ) {
-//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-//                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-//                String receiveString = "";
-//                StringBuilder stringBuilder = new StringBuilder();
-//
-//                while ( (receiveString = bufferedReader.readLine()) != null ) {
-//                    stringBuilder.append(receiveString).append("\n");
-//                }
-//
-//                inputStream.close();
-//                ret = stringBuilder.toString();
-//                mainEditText.setText(ret);
-//            }
-//        } catch (FileNotFoundException e) {
-//            Log.e("login activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("login activity", "Can not read file: " + e.toString());
-//        }
-
-
-    }
-
-    @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
@@ -220,7 +199,6 @@ public class MainActivity extends AppCompatActivity
                 else {
                     mDrawerLayout.openDrawer(mRightDrawerView);
                 }
-
                 return true;
             }else if(id==R.id.action_settings){
                 Intent intent=new Intent(MainActivity.this,HelpActivity.class);
@@ -255,6 +233,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        if (id == R.id.curly_brackets) {
+            Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
+        }
+
         if (id == R.id.action_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, mainEditText.getText().toString() + "");
@@ -264,8 +246,7 @@ public class MainActivity extends AppCompatActivity
             }
         } else if(id == R.id.action_save) {
             showSaveFileDialog();
-        }
-        else if(id == R.id.snippets) {
+        } else if(id == R.id.snippets) {
             Intent intent = new Intent(MainActivity.this,SnippetActivity.class);
             startActivity(intent);
         }
@@ -420,21 +401,55 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void result(String inputString) {
-        File path = new File("/storage/emulated/0/","Hack");
-        path.mkdirs();
+        if (Build.VERSION.SDK_INT >= 23)
+        {
+            if (checkPermission())
+            {
+                // Code for above or equal 23 API Oriented Device
+                // Your Permission granted already .Do next code
 
-        File file = new File(path,inputString);
-        file.mkdirs();
+                File path = new File(Environment.getExternalStorageDirectory().toString() + File.separator + "SayItEditor");
+//        Log.e("App", Environment.getExternalStorageDirectory().getAbsolutePath());
+                boolean success = true;
+                if (!path.exists()) {
+                    success = path.mkdir();
+                }
+                if (success) {
+                    Log.e("App", "success to create directory");
+                } else {
+                    Log.e("App", "failed to create directory");
+                }
+//        if(!path.exists()) {
+//            if(!path.mkdirs()) {
+//                Log.e("App", "failed to create directory");
+//            }
+//        }
 
-        FileOutputStream fileOutputStream;
-        try {
-            fileOutputStream = new FileOutputStream(new File(file.getAbsolutePath().toString()),true);
-            fileOutputStream.write(mainEditText.getText().toString().getBytes());
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(),inputString + "1",Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            Toast.makeText(getApplicationContext(),inputString + "2",Toast.LENGTH_SHORT).show();
+                File file = new File(path,inputString);
+//                if(!file.exists()) {
+//                    if(!file.mkdirs()) {
+//                        Log.e("App", "failed to create file");
+//                    }
+//                    else {
+//                        Log.e("App", "Success to create file");
+//                    }
+//                }
+
+                try {
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);  //(new File(file.getAbsolutePath().toString()),true);
+                    fileOutputStream.write(mainEditText.getText().toString().getBytes());
+                    fileOutputStream.close();
+                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(getApplicationContext(),inputString + "1",Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    Toast.makeText(getApplicationContext(),inputString + "2",Toast.LENGTH_SHORT).show();
+                }
+
+
+            } else {
+                requestPermission(); // Code for permission
+            }
         }
 
 //        Toast.makeText(getApplicationContext(),inputString + "",Toast.LENGTH_SHORT).show();
@@ -446,8 +461,39 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
+<<<<<<< HEAD
             }
         });
     }*/
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    private void requestPermission() {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Toast.makeText(MainActivity.this, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("value", "Permission Granted, Now you can use local drive .");
+                } else {
+                    Log.e("value", "Permission Denied, You cannot use local drive .");
+                }
+                break;
+        }
+    }
+    
 }
