@@ -17,12 +17,7 @@
     <item
         android:id="@+id/semi_colon"
         android:title=";" />
-    <item
-        android:id="@+id/angular_bracket_left"
-        android:title="@string/ang_bracket_left" />
-    <item
-        android:id="@+id/angular_bracket_right"
-        android:title="@string/ang_bracket_right" />
+
     <item
         android:id="@+id/angular_bracket_gequal"
         android:title="@string/ang_bracket_gequal" />
@@ -47,4 +42,10 @@
     <item
         android:id="@+id/multiplication"
         android:title="*" />
+    <item
+        android:id="@+id/angular_bracket_left"
+        android:title="@string/ang_bracket_left" />
+    <item
+        android:id="@+id/angular_bracket_right"
+        android:title="@string/ang_bracket_right" />
 </menu>
