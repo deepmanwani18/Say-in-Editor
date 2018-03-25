@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
                 promptSpeechInput();
             }
         });
-        helpButton();
+        //helpButton();
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -222,6 +222,9 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 return true;
+            }else if(id==R.id.action_settings){
+                Intent intent=new Intent(MainActivity.this,HelpActivity.class);
+                startActivity(intent);
             }
         return super.onOptionsItemSelected(item);
     }
@@ -437,14 +440,14 @@ public class MainActivity extends AppCompatActivity
 //        Toast.makeText(getApplicationContext(),inputString + "",Toast.LENGTH_SHORT).show();
 
     }
-    public void helpButton(){
+   /* public void helpButton(){
         Button help=findViewById(R.id.action_settings);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
             }
         });
-    }
+    }*/
 
 }

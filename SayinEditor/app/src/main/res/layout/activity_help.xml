@@ -7,10 +7,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:la
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="@string/help"
+        android:text="help"
         tools:context=".MainActivity" />
 
 </RelativeLayout>
