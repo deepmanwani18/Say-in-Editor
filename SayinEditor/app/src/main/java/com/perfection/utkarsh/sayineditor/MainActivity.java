@@ -57,10 +57,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainEditText = (EditText) findViewById(R.id.mainEditText);
-        mainEditText.setText("#include<bits/stdc++.h>" +
-                "\nusing namespace std;" +
-                "\nint main()\n{\n\n}");
-        mainEditText.setSelection(58);
+        mainEditText.setText("#include<bits/stdc++.h>\nusing namespace std;\nint main()\n{\n\n}");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -262,6 +259,10 @@ public class MainActivity extends AppCompatActivity
             }
         } else if(id == R.id.action_save) {
             showSaveFileDialog();
+        }
+        else if(id == R.id.snippets) {
+            Intent intent = new Intent(MainActivity.this,SnippetActivity.class);
+            startActivity(intent);
         }
 
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="10dp"
+        android:text="Voice Message for the Snippet"
+        android:textSize="23sp"
+        android:textColor="#000"/>
+    <EditText
+        android:id="@+id/voice_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="10dp"
+        android:text="Code Line to Display"
+        android:textSize="23sp"
+        android:textColor="#000"/>
+    <EditText
+        android:id="@+id/code_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"/>
+
+    <Button
+        android:id="@+id/submit_snippet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#518ed4"
+        android:width="200dp"
+        android:layout_marginTop="50dp"
+        android:padding="10dp"
+        android:textSize="25sp"
+        android:text="SUBMIT"
+        android:layout_gravity="center"/>
+</LinearLayout>
