@@ -59,13 +59,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainEditText = (EditText) findViewById(R.id.mainEditText);
-        mainEditText.setText("#include<bits/stdc++.h>" +
-                "\nusing namespace std;" +
-                "\nint main()\n{\n\n}");
-        mainEditText.setSelection(58);
+        mainEditText.setText("#include<bits/stdc++.h>\nusing namespace std;\nint main()\n{\n\n}");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -190,6 +188,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+
         int id = item.getItemId();
             if(id == R.id.action_insert_code) {
                 mDrawerToggle.onOptionsItemSelected(item);
@@ -242,6 +241,16 @@ public class MainActivity extends AppCompatActivity
             }
         } else if(id == R.id.action_save) {
             showSaveFileDialog();
+        } else if(id == R.id.snippets) {
+            Intent intent = new Intent(MainActivity.this,SnippetActivity.class);
+            startActivity(intent);
+        }
+
+
+
+
+        else if (id == R.id.curly_brackets) {
+
         } else if (id == R.id.semi_colon) {
 
         } else if (id == R.id.addition) {
