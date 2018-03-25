@@ -39,7 +39,7 @@ public class SnippetActivity extends AppCompatActivity {
     public void enterSnippet(){
         Button btn = (Button)findViewById(R.id.submit_snippet);
         final EditText code_custom =(EditText)findViewById(R.id.code_custom);
-        EditText voice_custom = (EditText)findViewById(R.id.voice_custom);
+        final EditText voice_custom = (EditText)findViewById(R.id.voice_custom);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +48,8 @@ public class SnippetActivity extends AppCompatActivity {
                 FileOutputStream outputStream;
                 try {
                     outputStream = openFileOutput(TEMP_CODE_SNIPPET, Context.MODE_PRIVATE);
-                    outputStream.write(code_custom.getText().toString().getBytes());
+                    outputStream.write(("Voice:"+voice_custom.getText().toString()).getBytes());
+                    outputStream.write(("Code:"+code_custom.getText().toString()).getBytes());
                     outputStream.close();
                 } catch (FileNotFoundException e) {
                     Toast.makeText(getApplicationContext(), "Error 1", Toast.LENGTH_SHORT).show();

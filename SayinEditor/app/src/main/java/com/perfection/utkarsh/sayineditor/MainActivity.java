@@ -2,6 +2,7 @@ package com.perfection.utkarsh.sayineditor;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +26,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity
                 promptSpeechInput();
             }
         });
-
+        //helpButton();
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -198,6 +200,9 @@ public class MainActivity extends AppCompatActivity
                     mDrawerLayout.openDrawer(mRightDrawerView);
                 }
                 return true;
+            }else if(id==R.id.action_settings){
+                Intent intent=new Intent(MainActivity.this,HelpActivity.class);
+                startActivity(intent);
             }
         return super.onOptionsItemSelected(item);
     }
@@ -455,7 +460,16 @@ public class MainActivity extends AppCompatActivity
 //        Toast.makeText(getApplicationContext(),inputString + "",Toast.LENGTH_SHORT).show();
 
     }
+   /* public void helpButton(){
+        Button help=findViewById(R.id.action_settings);
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+<<<<<<< HEAD
+            }
+        });
+    }*/
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (result == PackageManager.PERMISSION_GRANTED) {

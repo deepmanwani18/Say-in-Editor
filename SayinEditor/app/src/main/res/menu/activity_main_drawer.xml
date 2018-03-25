@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <item
+        android:icon="@drawable/ic_sentiment_very_satisfied_black_18dp"
+        android:title="Add Snippets"
+        android:id="@+id/snippets" />
+    <item
         android:icon="@drawable/ic_menu_share"
         android:id="@+id/action_share"
         android:title="Share" />
@@ -11,9 +15,5 @@
         android:icon="@drawable/ic_file_download_black_18dp"
         android:title="Save"
         android:id="@+id/action_save" />
-    <item
-        android:icon="@drawable/ic_sentiment_very_satisfied_black_18dp"
-        android:title="Add Snippets"
-        android:id="@+id/snippets" />
 
 </menu>
