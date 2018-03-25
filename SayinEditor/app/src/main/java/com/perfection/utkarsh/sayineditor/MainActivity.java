@@ -261,6 +261,10 @@ public class MainActivity extends AppCompatActivity
         } else if(id == R.id.action_save) {
             showSaveFileDialog();
         }
+        else if(id == R.id.snippets) {
+            Intent intent = new Intent(MainActivity.this,SnippetActivity.class);
+            startActivity(intent);
+        }
 
 
 
