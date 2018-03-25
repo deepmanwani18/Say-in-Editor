@@ -13,4 +13,5 @@
     <string name="ang_bracket_right">&gt;&gt;</string>
     <string name="ang_bracket_lequal">&lt;=</string>
     <string name="ang_bracket_gequal">&gt;=</string>
+    <string name="title_activity_snippet">SnippetActivity</string>
 </resources>
