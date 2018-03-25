@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainEditText = (EditText) findViewById(R.id.mainEditText);
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
 
         int id = item.getItemId();
             if(id == R.id.action_insert_code) {
