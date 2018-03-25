@@ -436,7 +436,7 @@ public class MainActivity extends AppCompatActivity
 //                }
 
                 try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(file);  //(new File(file.getAbsolutePath().toString()),true);
+                    FileOutputStream fileOutputStream = new FileOutputStream(file,true);  //(new File(file.getAbsolutePath().toString()),true);
                     fileOutputStream.write(mainEditText.getText().toString().getBytes());
                     fileOutputStream.close();
                     Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
