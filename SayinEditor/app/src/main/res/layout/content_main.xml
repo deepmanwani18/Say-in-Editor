@@ -15,6 +15,7 @@
         android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:textCursorDrawable="@drawable/color_cursor"
         android:textColor="#fff"
         android:gravity="top"/>
 
