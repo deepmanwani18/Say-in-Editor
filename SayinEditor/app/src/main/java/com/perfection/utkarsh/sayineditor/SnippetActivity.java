@@ -17,10 +17,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class SnippetActivity extends AppCompatActivity {
 
@@ -28,6 +32,7 @@ public class SnippetActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 1;
     EditText code_custom;
     EditText voice_custom;
+    String ret;
 
 
     @Override
@@ -74,12 +79,43 @@ public class SnippetActivity extends AppCompatActivity {
                         }
 
                         File file = new File(path,TEMP_CODE_SNIPPET);
+
+                        ret = "";
                         try {
-                            FileOutputStream fileOutputStream = new FileOutputStream(file, true);  //(new File(file.getAbsolutePath().toString()),true);
-                            fileOutputStream.write(("\nVoice:" + voice_custom.getText().toString()).getBytes());
-                            fileOutputStream.write(("\nCode:" + code_custom.getText().toString()).getBytes());
-                            fileOutputStream.close();
-                            Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+                            FileInputStream inputStream = new FileInputStream(file);
+                            if ( inputStream != null ) {
+                                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                                String receiveString = "";
+                                StringBuilder stringBuilder = new StringBuilder();
+                                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                                    stringBuilder.append(receiveString).append("\n");
+                                }
+                                inputStream.close();
+                                ret = stringBuilder.toString();
+                            }
+                        } catch (FileNotFoundException e) {
+                            Log.e("login activity", "File not found: " + e.toString());
+                        } catch (IOException e) {
+                            Log.e("login activity", "Can not read file: " + e.toString());
+                        }
+
+                        try {
+
+                                String startString = "{\"snippet\":[";
+                                String endString = "],}";
+                                String result;
+                            if(ret.isEmpty()) {
+                                result = "";
+                            }
+                            else {
+                                result = ret.substring(startString.length(), ret.length() - 3);
+                            }
+                                FileOutputStream fileOutputStream = new FileOutputStream(file);  //(new File(file.getAbsolutePath().toString()),true);
+                                fileOutputStream.write((startString + result + "{\"voice\":" + "\"" +voice_custom.getText().toString() + "\"" + ",\"code\":" + "\"" + code_custom.getText().toString() + "\"" + "}," + endString).getBytes());
+//                                fileOutputStream.write(("\nCode:" + code_custom.getText().toString()).getBytes());
+                                fileOutputStream.close();
+                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                         } catch (FileNotFoundException e) {
                             Toast.makeText(getApplicationContext(),"Error" + "1",Toast.LENGTH_SHORT).show();
                         } catch (IOException e) {
