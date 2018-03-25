@@ -2,32 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <group>
-        <item
-            android:id="@+id/curly_brackets"
-            android:title="{ }" />
-        <item
-            android:id="@+id/square_brackets"
-            android:title="[ ]" />
-        <item
-            android:id="@+id/curved_brackets"
-            android:title="( )" />
-        <item
-            android:id="@+id/semi_colon"
-            android:title=";" />
-        <item
-            android:id="@+id/angular_bracket_left"
-            android:title="@string/ang_bracket_left" />
-        <item
-            android:id="@+id/angular_bracket_right"
-            android:title="@string/ang_bracket_right" />
-        <item
-            android:id="@+id/angular_bracket_gequal"
-            android:title="@string/ang_bracket_gequal" />
-        <item
-            android:id="@+id/angular_bracket_lequal"
-            android:title="@string/ang_bracket_lequal" />
-    </group>
+    <item
+        android:id="@+id/curly_brackets"
+        android:title="{ }" />
+    <item
+        android:id="@+id/square_brackets"
+        android:title="[ ]" />
+    <item
+        android:id="@+id/curved_brackets"
+        android:title="( )" />
+    <item
+        android:id="@+id/back_slash"
+        android:title="\\" />
+    <item
+        android:id="@+id/semi_colon"
+        android:title=";" />
+    <item
+        android:id="@+id/angular_bracket_left"
+        android:title="@string/ang_bracket_left" />
+    <item
+        android:id="@+id/angular_bracket_right"
+        android:title="@string/ang_bracket_right" />
+    <item
+        android:id="@+id/angular_bracket_gequal"
+        android:title="@string/ang_bracket_gequal" />
+    <item
+        android:id="@+id/angular_bracket_lequal"
+        android:title="@string/ang_bracket_lequal" />
     <item
         android:id="@+id/addition"
         android:title="+" />

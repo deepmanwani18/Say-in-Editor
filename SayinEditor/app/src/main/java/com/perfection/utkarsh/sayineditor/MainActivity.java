@@ -233,10 +233,6 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.curly_brackets) {
-            Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
-        }
-
         if (id == R.id.action_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, mainEditText.getText().toString() + "");
@@ -257,32 +253,68 @@ public class MainActivity extends AppCompatActivity
         String codeToBeInserted = "";
         Log.e("MainActivity","Open");
         if (id == R.id.curly_brackets) {
-            Log.e("MainActivity","Curly");
+
             codeToBeInserted = "{\n\n}";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + 2);
         } else if (id == R.id.semi_colon) {
-
+            codeToBeInserted = ";\n";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 2);
         } else if (id == R.id.addition) {
-
+            codeToBeInserted = "+";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
         } else if (id == R.id.subtraction) {
-
+            codeToBeInserted = "-";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
         } else if (id == R.id.division) {
-
+            codeToBeInserted = "/";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
         } else if (id == R.id.modulus) {
-
+            codeToBeInserted = "%";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
         } else if (id == R.id.angular_bracket_left) {
-
+            codeToBeInserted = "<<";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 2);
         } else if (id == R.id.curved_brackets) {
-
+            codeToBeInserted = "()";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
         } else if (id == R.id.angular_bracket_gequal) {
-
+            codeToBeInserted = ">=";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 2);
         } else if (id == R.id.angular_bracket_lequal) {
-
-        } else if (id == R.id.angular_bracket_right) {
-
+            codeToBeInserted = "<=";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 2);
+        }
+        else if (id == R.id.back_slash) {
+            codeToBeInserted = "\\";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
+        }
+        else if (id == R.id.angular_bracket_right) {
+            codeToBeInserted = ">>";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 2);
         } else if (id == R.id.assignment) {
-
+            codeToBeInserted = "=";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
+        } else if (id == R.id.square_brackets) {
+            codeToBeInserted = "[]";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
+        } else if (id == R.id.multiplication) {
+            codeToBeInserted = "*";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 1);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -422,24 +454,10 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     Log.e("App", "failed to create directory");
                 }
-//        if(!path.exists()) {
-//            if(!path.mkdirs()) {
-//                Log.e("App", "failed to create directory");
-//            }
-//        }
 
                 File file = new File(path,inputString);
-//                if(!file.exists()) {
-//                    if(!file.mkdirs()) {
-//                        Log.e("App", "failed to create file");
-//                    }
-//                    else {
-//                        Log.e("App", "Success to create file");
-//                    }
-//                }
-
                 try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(file);  //(new File(file.getAbsolutePath().toString()),true);
+                    FileOutputStream fileOutputStream = new FileOutputStream(file,true);  //(new File(file.getAbsolutePath().toString()),true);
                     fileOutputStream.write(mainEditText.getText().toString().getBytes());
                     fileOutputStream.close();
                     Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
