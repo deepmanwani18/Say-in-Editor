@@ -7,4 +7,9 @@
         android:id="@+id/action_share"
         android:title="Share" />
 
+    <item
+        android:icon="@drawable/ic_file_download_black_18dp"
+        android:title="Save"
+        android:id="@+id/action_save" />
+
 </menu>

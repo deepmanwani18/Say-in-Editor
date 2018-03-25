@@ -1,6 +1,7 @@
 package com.perfection.utkarsh.sayineditor;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,23 +9,37 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SaveFileDialog.SaveFileDialogListener {
 
+    public String mainPath;
+    private DialogFragment dialog;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mLeftDrawerView;
@@ -32,6 +47,9 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     EditText mainEditText;
+
+    File tempFile;
+    private final String TEMP_FILE_NAME = "hackonhills_tempfile_04e09f1999.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +112,50 @@ public class MainActivity extends AppCompatActivity
             };
 
             mDrawerLayout.setDrawerListener(mDrawerToggle);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+            tempFile = new File(TEMP_FILE_NAME);
+            FileOutputStream fileOutputStream;
+            try {
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getApplicationContext().openFileOutput(TEMP_FILE_NAME,Context.MODE_PRIVATE));
+                outputStreamWriter.write(mainEditText.getText().toString());
+                outputStreamWriter.close();
+                Toast.makeText(getApplicationContext(),"File saved",Toast.LENGTH_SHORT).show();
+            } catch (FileNotFoundException e) {
+                Toast.makeText(getApplicationContext(),"Error 1",Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(),"Error 2",Toast.LENGTH_SHORT).show();
+            }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String ret = "";
+        try {
+            InputStream inputStream = getApplicationContext().openFileInput(TEMP_FILE_NAME);
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString).append("\n");
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+                mainEditText.setText(ret);
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
         }
     }
 
@@ -170,7 +232,14 @@ public class MainActivity extends AppCompatActivity
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             }
-        } else if (id == R.id.curly_brackets) {
+        } else if(id == R.id.action_save) {
+            showSaveFileDialog();
+        }
+
+
+
+
+        else if (id == R.id.curly_brackets) {
 
         } else if (id == R.id.semi_colon) {
 
@@ -295,4 +364,41 @@ public class MainActivity extends AppCompatActivity
             codeToBeInserted = "";
         }
     }
+
+
+    public void showSaveFileDialog() {
+        // Create an instance of the dialog fragment and show it
+        dialog = new SaveFileDialog();
+        dialog.show(getSupportFragmentManager(), "SaveFileDialogFragment");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void result(String inputSting) {
+
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = openFileOutput(inputSting, Context.MODE_PRIVATE);
+            fileOutputStream.write(mainEditText.getText().toString().getBytes());
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(),inputSting + "2",Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(),inputSting + "1",Toast.LENGTH_SHORT).show();
+        }
+
+        Toast.makeText(getApplicationContext(),inputSting + "",Toast.LENGTH_SHORT).show();
+
+    }
+
+
 }
