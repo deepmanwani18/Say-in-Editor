@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         mainEditText.setText("#include<bits/stdc++.h>\nusing namespace std;\nint main()\n{\n\n}");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.micfab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +81,30 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+
+        String ret = "";
+        try {
+            InputStream inputStream = getApplicationContext().openFileInput(TEMP_FILE_NAME);
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString).append("\n");
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+                mainEditText.setText(ret);
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
         if (mDrawerLayout == null || mLeftDrawerView == null || mRightDrawerView == null || mDrawerToggle == null) {
             // Configure navigation drawer
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -130,28 +155,31 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        String ret = "";
-        try {
-            InputStream inputStream = getApplicationContext().openFileInput(TEMP_FILE_NAME);
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
+        Log.e("DHSL","HS");
+//        String ret = "";
+//        try {
+//            InputStream inputStream = getApplicationContext().openFileInput(TEMP_FILE_NAME);
+//            if ( inputStream != null ) {
+//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+//                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//                String receiveString = "";
+//                StringBuilder stringBuilder = new StringBuilder();
+//
+//                while ( (receiveString = bufferedReader.readLine()) != null ) {
+//                    stringBuilder.append(receiveString).append("\n");
+//                }
+//
+//                inputStream.close();
+//                ret = stringBuilder.toString();
+//                mainEditText.setText(ret);
+//            }
+//        } catch (FileNotFoundException e) {
+//            Log.e("login activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("login activity", "Can not read file: " + e.toString());
+//        }
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString).append("\n");
-                }
 
-                inputStream.close();
-                ret = stringBuilder.toString();
-                mainEditText.setText(ret);
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        }
     }
 
     @Override
@@ -229,6 +257,10 @@ public class MainActivity extends AppCompatActivity
             }
         } else if(id == R.id.action_save) {
             showSaveFileDialog();
+        }
+        else if(id == R.id.snippets) {
+            Intent intent = new Intent(MainActivity.this,SnippetActivity.class);
+            startActivity(intent);
         }
 
 
@@ -308,6 +340,7 @@ public class MainActivity extends AppCompatActivity
             codeToBeInserted = "int" + input.substring(15) + ";\n";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
+            Toast.makeText(getApplicationContext(), "" + codeToBeInserted, Toast.LENGTH_SHORT).show();
         } else if (input.startsWith("declare long integer")) {
             codeToBeInserted = "long int" + input.substring(20) + ";\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
@@ -392,9 +425,9 @@ public class MainActivity extends AppCompatActivity
             fileOutputStream.write(mainEditText.getText().toString().getBytes());
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(),inputString + "2",Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
             Toast.makeText(getApplicationContext(),inputString + "1",Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(),inputString + "2",Toast.LENGTH_SHORT).show();
         }
 
 //        Toast.makeText(getApplicationContext(),inputString + "",Toast.LENGTH_SHORT).show();

@@ -44,18 +44,19 @@ public class SnippetActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 FileOutputStream outputStream;
                 try {
                     outputStream = openFileOutput(TEMP_CODE_SNIPPET, Context.MODE_PRIVATE);
                     outputStream.write(code_custom.getText().toString().getBytes());
                     outputStream.close();
                 } catch (FileNotFoundException e) {
-                    Toast.makeText(getApplicationContext(),"Error 1",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error 1", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(),"Error 2",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error 2", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
 }
+
