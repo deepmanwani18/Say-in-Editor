@@ -74,7 +74,6 @@ public class SnippetActivity extends AppCompatActivity {
                         }
 
                         File file = new File(path,TEMP_CODE_SNIPPET);
-
                         try {
                             FileOutputStream fileOutputStream = new FileOutputStream(file, true);  //(new File(file.getAbsolutePath().toString()),true);
                             fileOutputStream.write(("\nVoice:" + voice_custom.getText().toString()).getBytes());

@@ -405,17 +405,15 @@ public class MainActivity extends AppCompatActivity
         } else if (input.startsWith("power")) {
             codeToBeInserted = "pow(" + input.substring(5) + "," + ");\n";
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
-        } else if (input.startsWith("declare array integer")) {              //declare an array integer a of size 1000
+        } else if (input.startsWith("declare array integer")) {              //declare array integer a of size 1000
             codeToBeInserted = "int" + input.substring(21, input.indexOf("of size")) + "[" + input.substring(input.indexOf("of size")) + "];\n";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
             //TODO: non-singular names of arrays cannot be declared. Solve this bug.
-        } else if (input.startsWith("add test case loop")) {              //add testcase loop of int a
+        } else if (input.startsWith("add test case loop")) {              //add testcase loop of a
             codeToBeInserted = "int " + input.substring(19) + ";\ncin>>" + input.substring(19) + "\nwhile(" + input.substring(19) + "--)\n{\n}";//int,float,char, double, long int , long long int
             mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
             mainEditText.setSelection(codeBeforeCursor.length() + codeToBeInserted.length() - 1);
-        } else if (input.startsWith("create function")) {
-            codeToBeInserted = "";
         }
     }
 
@@ -456,22 +454,8 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     Log.e("App", "failed to create directory");
                 }
-//        if(!path.exists()) {
-//            if(!path.mkdirs()) {
-//                Log.e("App", "failed to create directory");
-//            }
-//        }
 
                 File file = new File(path,inputString);
-//                if(!file.exists()) {
-//                    if(!file.mkdirs()) {
-//                        Log.e("App", "failed to create file");
-//                    }
-//                    else {
-//                        Log.e("App", "Success to create file");
-//                    }
-//                }
-
                 try {
                     FileOutputStream fileOutputStream = new FileOutputStream(file,true);  //(new File(file.getAbsolutePath().toString()),true);
                     fileOutputStream.write(mainEditText.getText().toString().getBytes());
