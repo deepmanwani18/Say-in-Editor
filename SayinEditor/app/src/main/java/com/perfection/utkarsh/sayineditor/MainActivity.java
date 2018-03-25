@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Environment;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity
     private final int REQ_CODE_SPEECH_INPUT = 100;
     EditText mainEditText;
 
-    File tempFile;
     private final String TEMP_FILE_NAME = "hackonhills_tempfile_04e09f1999.txt";
 
     @Override
@@ -118,18 +118,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-            tempFile = new File(TEMP_FILE_NAME);
-            FileOutputStream fileOutputStream;
-            try {
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getApplicationContext().openFileOutput(TEMP_FILE_NAME,Context.MODE_PRIVATE));
-                outputStreamWriter.write(mainEditText.getText().toString());
-                outputStreamWriter.close();
-                Toast.makeText(getApplicationContext(),"File saved",Toast.LENGTH_SHORT).show();
-            } catch (FileNotFoundException e) {
+        FileOutputStream outputStream;
+        try {
+            outputStream = openFileOutput(TEMP_FILE_NAME, Context.MODE_PRIVATE);
+            outputStream.write(mainEditText.getText().toString().getBytes());
+            outputStream.close();
+        } catch (FileNotFoundException e) {
                 Toast.makeText(getApplicationContext(),"Error 1",Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
+        } catch (IOException e) {
                 Toast.makeText(getApplicationContext(),"Error 2",Toast.LENGTH_SHORT).show();
-            }
+        }
     }
 
     @Override
@@ -383,20 +381,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void result(String inputSting) {
+    public void result(String inputString) {
+        File path = new File("/storage/emulated/0/","Hack");
+        path.mkdirs();
+
+        File file = new File(path,inputString);
+        file.mkdirs();
 
         FileOutputStream fileOutputStream;
         try {
-            fileOutputStream = openFileOutput(inputSting, Context.MODE_PRIVATE);
+            fileOutputStream = new FileOutputStream(new File(file.getAbsolutePath().toString()),true);
             fileOutputStream.write(mainEditText.getText().toString().getBytes());
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(),inputSting + "2",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),inputString + "2",Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(),inputSting + "1",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),inputString + "1",Toast.LENGTH_SHORT).show();
         }
 
-        Toast.makeText(getApplicationContext(),inputSting + "",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),inputString + "",Toast.LENGTH_SHORT).show();
 
     }
 
