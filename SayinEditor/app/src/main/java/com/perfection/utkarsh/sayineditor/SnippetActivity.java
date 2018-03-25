@@ -25,5 +25,4 @@ public class SnippetActivity extends AppCompatActivity {
             }
         });
     }
-
 }
