@@ -56,10 +56,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainEditText = (EditText) findViewById(R.id.mainEditText);
-        mainEditText.setText("#include<bits/stdc++.h>" +
-                "\nusing namespace std;" +
-                "\nint main()\n{\n\n}");
-        mainEditText.setSelection(58);
+        mainEditText.setText("#include<bits/stdc++.h>\nusing namespace std;\nint main()\n{\n\n}");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.micfab);
