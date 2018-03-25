@@ -263,11 +263,16 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-
-
-
-        else if (id == R.id.curly_brackets) {
-
+        int cursorPosition = mainEditText.getSelectionStart();
+        String codeBeforeCursor = mainEditText.getText().toString().substring(0, cursorPosition);
+        String codeAfterCursor = mainEditText.getText().toString().substring(cursorPosition, mainEditText.getText().toString().length());
+        String codeToBeInserted = "";
+        Log.e("MainActivity","Open");
+        if (id == R.id.curly_brackets) {
+            Log.e("MainActivity","Curly");
+            codeToBeInserted = "{\n\n}";
+            mainEditText.setText(codeBeforeCursor + codeToBeInserted + codeAfterCursor);
+            mainEditText.setSelection(codeBeforeCursor.length() + 2);
         } else if (id == R.id.semi_colon) {
 
         } else if (id == R.id.addition) {
