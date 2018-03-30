@@ -244,7 +244,6 @@ public class MainActivity extends AppCompatActivity
         String codeBeforeCursor = mainEditText.getText().toString().substring(0, cursorPosition);
         String codeAfterCursor = mainEditText.getText().toString().substring(cursorPosition, mainEditText.getText().toString().length());
         String codeToBeInserted = "";
-        Log.e("MainActivity","Open");
         if (id == R.id.curly_brackets) {
 
             codeToBeInserted = "{\n\n}";

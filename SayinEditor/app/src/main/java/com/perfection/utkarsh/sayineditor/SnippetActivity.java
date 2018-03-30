@@ -47,9 +47,7 @@ public class SnippetActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ListView snippetListView = findViewById(R.id.list);
-//        mAdapter = new SnippetAdapter(this, new ArrayList<Snippet>());
-//
-//        snippetListView.setAdapter(mAdapter);
+
 
         File path = new File(Environment.getExternalStorageDirectory().toString() + File.separator + "SayItEditor");
         boolean success = true;
@@ -85,6 +83,8 @@ public class SnippetActivity extends AppCompatActivity {
         }
 
         ArrayList<Snippet> snippets = QueryUtils.extractFeatureFromJson(ret);
+        mAdapter = new SnippetAdapter(this, R.layout.list_item , snippets);
+        snippetListView.setAdapter(mAdapter);
 
         FloatingActionButton fab_snippet = (FloatingActionButton) findViewById(R.id.fab_snippet);
         fab_snippet.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +94,10 @@ public class SnippetActivity extends AppCompatActivity {
                 enterSnippet();
             }
         });
+
+
+
+
     }
     public void enterSnippet(){
         Button btn = (Button)findViewById(R.id.submit_snippet);
@@ -103,6 +107,8 @@ public class SnippetActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                boolean newFile;
 
                 if (Build.VERSION.SDK_INT >= 23)
                 {
@@ -115,6 +121,7 @@ public class SnippetActivity extends AppCompatActivity {
                         boolean success = true;
                         if (!path.exists()) {
                             success = path.mkdir();
+                            newFile = true;
                         }
                         if (success) {
                             Log.e("App", "success to create directory");
@@ -147,7 +154,7 @@ public class SnippetActivity extends AppCompatActivity {
                         try {
 
                                 String startString = "{\"snippet\":[";
-                                String endString = "],}";
+                                String endString = "]}";
                                 String result;
                             if(ret.isEmpty()) {
                                 result = "";
@@ -156,7 +163,7 @@ public class SnippetActivity extends AppCompatActivity {
                                 result = ret.substring(startString.length(), ret.length() - 3);
                             }
                                 FileOutputStream fileOutputStream = new FileOutputStream(file);  //(new File(file.getAbsolutePath().toString()),true);
-                                fileOutputStream.write((startString + result + "{\"voice\":" + "\"" +voice_custom.getText().toString() + "\"" + ",\"code\":" + "\"" + code_custom.getText().toString() + "\"" + "}," + endString).getBytes());
+                                fileOutputStream.write((startString + result + "{\"voice\":" + "\"" +voice_custom.getText().toString() + "\"" + ",\"code\":" + "\"" + code_custom.getText().toString() + "\"" + "}" + endString).getBytes());
 //                                fileOutputStream.write(("\nCode:" + code_custom.getText().toString()).getBytes());
                                 fileOutputStream.close();
                                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();

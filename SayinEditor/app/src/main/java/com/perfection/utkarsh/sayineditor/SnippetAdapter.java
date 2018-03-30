@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.sql.Array;
 import java.util.ArrayList;
 
 /**
@@ -18,27 +17,27 @@ import java.util.ArrayList;
 
 public class SnippetAdapter extends ArrayAdapter<Snippet> {
 
-    public SnippetAdapter(Context context, ArrayList<Snippet> earthquakes) {
-        super(context, 0, earthquakes);
-    }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        View gridItemView = convertView;
-        if (gridItemView == null) {
-            gridItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.content_snippet, parent, false);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.list_item, parent, false);
         }
 
         Snippet currentSnippet = getItem(position);
-        TextView codeView = (TextView) gridItemView.findViewById(R.id.code);
-        TextView voiceView = (TextView) gridItemView.findViewById(R.id.voice);
+
+        TextView codeView = (TextView) convertView.findViewById(R.id.code);
+        TextView voiceView = (TextView) convertView.findViewById(R.id.voice);
 
         codeView.setText(currentSnippet.getCode());
         voiceView.setText(currentSnippet.getVoice());
 
-        return gridItemView;
+        return convertView;
+    }
+
+    public SnippetAdapter(Context context, int resource ,ArrayList<Snippet> snippets) {
+        super(context, resource, snippets);
     }
 }

@@ -23,7 +23,7 @@ public class QueryUtils {
         }
 
         // Create an empty ArrayList that we can start adding earthquakes to
-        ArrayList<Snippet> snippets = new ArrayList<>();
+        ArrayList<Snippet> snippets = new ArrayList<Snippet>();
 
         // Try to parse the JSON response string. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
