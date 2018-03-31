@@ -19,11 +19,4 @@
         android:paddingTop="8dp"
         app:srcCompat="@drawable/rightdrawer" />
 
-
-    <!--<TextView-->
-        <!--android:id="@+id/textView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="android.studio@android.com" />-->
-
 </LinearLayout>
